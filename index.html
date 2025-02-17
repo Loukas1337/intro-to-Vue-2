@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/styles.css" />
     <!-- Importa o JS do Framework VueJS -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/http-vue-loader"></script>
     <!-- Import Fontawesome Icons-->
     <script
       defer
@@ -46,6 +47,13 @@
           - Quando tem +10: Opps! Não seria melhor focar os estudos em apenas algumas tecnologias?
         -->
         <h2>{{ studentNote }}</h2>
+      </section>
+
+      <section class="center">
+        <!-- TODO: Implementar o botão fechar alertar -->
+        <alerta icone="success" texto="Muito Bem! Este é uma alerta de sucesso!"></alerta>
+        <alerta icone="warning" texto="Aviso Importante! Verifique que algo pode ficar melhor!"></alerta>
+        <alerta icone="danger" texto="Poxa Vida! Alguma coisa deu muito errado e precisa de correção"></alerta>
       </section>
 
       <section class="course-list">

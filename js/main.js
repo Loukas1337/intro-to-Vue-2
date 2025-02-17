@@ -1,5 +1,14 @@
+/*
+VueLoader
+for Vue2 : https://github.com/FranckFreiburger/http-vue-loader
+for Vue3 : https://github.com/FranckFreiburger/vue3-sfc-loader
+*/
+
 var app = new Vue({
   el: "#app",
+  components: {
+    'alerta': httpVueLoader('./components/alerta.vue')
+  },
   data: {
     shoppingList: [],
     studyingList: [],
@@ -42,7 +51,7 @@ var app = new Vue({
         duration: 21,
         active: false,
         price: 900,
-        message: "👈 Melhor curso do mercado!",
+        message: "👈 Melhor curso do mercado",
         showReview: false,
         reviews: [],
         errors: [],
@@ -78,7 +87,7 @@ var app = new Vue({
         targetList = this.studyingList;
       }
       targetList.push(course);
-      this.showToast(`${course.course.split(" - ")[0]} adicionado na sua lista de cursos!`)
+      this.showToast(`${course.course.split(" - ")[0]} Adicionado na sua lista de cursos!`)
     },
     selectTab(courseIndex, tab) {
       this.courses[courseIndex].selectedTab = tab;
@@ -114,7 +123,7 @@ var app = new Vue({
       course.selectedTab = undefined;
 
       this.showToast(
-        "Sua revisão foi enviada! Muito obrigado pela contribuição."
+        "Sua reivão foi enviada! Muito obrigado pela contribuição."
       );
     },
     calcRating(courseIndex) {

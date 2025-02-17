@@ -1,14 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>Vue Mastery Clone - PT-BR</title>
-    <!-- Importa styles -->
+    <!-- Import Styles -->
     <link rel="stylesheet" href="./css/styles.css" />
     <!-- Importa o JS do Framework VueJS -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <!-- Importa Fontawesome Icons-->
+    <!-- Import Fontawesome Icons-->
     <script
       defer
       src="https://use.fontawesome.com/releases/v6.1.1/js/all.js"
@@ -54,12 +53,23 @@
                 </h2>
                 <p class="description">{{ course.description }}</p>
                 <div class="course-actions pa-1">
+                  <!-- Desafio: Como fazer o valor 'FREE' também pegar a cor customizada?-->
+
                   <p v-if="course.price == 0" class="badge keep-left bold">
                     FREE
                   </p>
-                  <p v-else class="badge keep-left bold">
+                  <p
+                    v-else
+                    class="badge keep-left bold"
+                    :style="{ 'background-color': course.style && course.style.priceColor ? course.style.priceColor : theme.priceColorDefault }"
+                  >
                     R$ {{ course.price }}
                   </p>
+
+                  <span v-if="course.message" class="keep-left bold"
+                    >{{ course.message }}</span
+                  >
+
                   <span>{{ course.duration }} horas</span>
                   <button
                     :class="{btn: true, 'btn-primary': course.active}"
@@ -76,7 +86,7 @@
       </section>
     </div>
 
-    <!-- Inicializa app VueJS -->
+    <!-- Inicializa App VueJS -->
     <script src="./js/main.js"></script>
   </body>
 </html>

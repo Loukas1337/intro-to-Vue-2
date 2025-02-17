@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,10 +28,20 @@
           <span class="cart-counter study">{{ studyingList.length }}</span>
         </div>
       </section>
-      <section class="banner">
+      <section class="banner mb-2">
         <header>
           <h2 class="title">Investir em conhecimento tem os melhores juros.</h2>
         </header>
+      </section>
+
+      <section class="center">
+        <!--
+          Como exibir as seguintes mensagens (studentNote):
+          - Quando nenhum curso está selecionado: Selecione um ou mais cursos e bora estudar!
+          - Quando tem 1 ou mais cursos selecionado: Muito bem, você já pode iniciar seu estudo!
+          - Quando tem +10: Opps! Não seria melhor focar os estudos em apenas algumas tecnologias?
+        -->
+        <h2>{{ studentNote }}</h2>
       </section>
 
       <section class="course-list">

@@ -29,3 +29,7 @@
 .pa-3 {
   padding: 32px;
 }
+
+.keep-left {
+  margin-right: auto;
+}

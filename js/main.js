@@ -1,9 +1,9 @@
-
 var app = new Vue({
   el: "#app",
   data: {
     shoppingList: [],
     studyingList: [],
+    tabs: ["Notas", "Dar uma nota"],
     courses: [
       {
         id: 1,
@@ -19,7 +19,9 @@ var app = new Vue({
         },
         showReview: false,
         reviews: [],
+        errors: [],
         rating: null,
+        selectedTab: null,
       },
       {
         id: 2,
@@ -30,9 +32,11 @@ var app = new Vue({
         duration: 21,
         active: false,
         price: 900,
-        message: "👈 Melhor curso do mercado",
+        message: "👈 Melhor curso do mercado!",
         showReview: false,
         reviews: [],
+        errors: [],
+        selectedTab: null,
       },
       {
         id: 3,
@@ -45,6 +49,8 @@ var app = new Vue({
         price: 0,
         showReview: false,
         reviews: [],
+        errors: [],
+        selectedTab: null,
       },
     ],
     theme: {
@@ -63,21 +69,30 @@ var app = new Vue({
       }
       targetList.push(course);
     },
-    toggleReview(index) {
-      this.courses[index].showReview = !this.courses[index].showReview;
+    selectTab(courseIndex, tab) {
+      this.courses[courseIndex].selectedTab = tab;
     },
     sendRewiew(courseIndex) {
-      if (!this.courses[courseIndex].rating) {
+      const course = this.courses[courseIndex];
+      /* Tarefa:
+      - Verique se tem uma nota, caso contrário retorne com o erro,
+        utilize uma forma diferente deste alert.
+      - Crie um `object` de revisão: {}
+      - Adicione este object na lista revisões: `course.reviews` (push e [])
+      - Adicione também os campos nome (name) e uma descrição (review)
+      - limpe os campos
+      **/
+      if (!course.rating) {
         alert("Selecione um nota antes de enviar!");
         return;
       }
       let newReview = {
         date: new Date().toISOString(),
-        rating: this.courses[courseIndex].rating,
+        rating: course.rating,
       };
-      this.courses[courseIndex].reviews.push(newReview);
-      this.courses[courseIndex].rating = undefined;
-      this.courses[courseIndex].showReview = false;
+      course.reviews.push(newReview);
+      course.rating = undefined;
+      course.showReview = false;
     },
     calcRating(courseIndex) {
       let reviews = this.courses[courseIndex].reviews;
@@ -96,7 +111,7 @@ var app = new Vue({
       let message = "Selecione um ou mais cursos e bora estudar!";
       if (this.studyingList.length > 0 && this.studyingList.length <= 10) {
         message = "Muito bem, você já pode iniciar seu estudo!";
-      } else {
+      } else if (this.studyingList.length > 10) {
         message =
           "Ops! Não seria melhor focar os estudos em apenas algumas tecnologias?";
       }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue Mastery Clone - PT-BR</title>
+    <!-- Import Styles -->
+    <link rel="stylesheet" href="./css/styles.css" />
+    <!-- Importa o JS do Framework VueJS -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  </head>
+  <body>
+    <!-- Container gerenciado pelo VueJS -->
+    <div id="app">
+      <section class="header">
+        <h1 class="title center ma-3">VueJS - Top Cursos</h1>
+      </section>
+      <section class="banner">
+        <header>
+          <h2 class="title">Investir em conhecimento tem os melhores juros.</h2>
+        </header>
+      </section>
+
+      <section class="course-list">
+        <ul>
+          <li class="course-item ma-3">
+            <div class="course">
+              <div class="course-image">
+                <img :src="image" alt="imageDescription" /> <!-- Aqui também poderíamos ser mais explícitos utilizando v-bind:src -->
+              </div>
+              <div class="course-info">
+                <h2 class="title mb-2">{{ course }}</h2>
+                <p class="description"> {{ description }} </p>
+                <p>{{ duration }} horas</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Inicializa App VueJS -->
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          course: "D-Já Vue - Uma jornada pela Web",
+          description:
+            "Como construir aplicações web com agilidade e qualidade.",
+          duration: 42,
+          image: "./images/dejavu_matrix.jpg",
+          imageDescription: "Gato do Matrix",
+        },
+      });
+    </script>
+  </body>
+</html>

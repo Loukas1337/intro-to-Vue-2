@@ -1,4 +1,3 @@
-
 var app = new Vue({
   el: "#app",
   data: {
@@ -55,6 +54,18 @@ var app = new Vue({
         targetList = this.studyingList;
       }
       targetList.push(course);
+    },
+  },
+  computed: {
+    studentNote() {
+      let message = "Selecione um ou mais cursos e bora estudar!";
+      if (this.studyingList.length > 0 && this.studyingList.length <= 10) {
+        message = "Muito bem, você já pode iniciar seu estudo!";
+      } else {
+        message =
+          "Ops! Não seria melhor focar os estudos em apenas algumas tecnologias?";
+      }
+      return message;
     },
   },
 });

@@ -4,6 +4,16 @@ var app = new Vue({
     shoppingList: [],
     studyingList: [],
     tabs: ["Notas", "Dar uma nota"],
+    toast: {
+      duration: 4000,
+      visible: false,
+      message: "Oi",
+      style: {
+        "vue-toast": true,
+        success: true,
+        hide: false,
+      },
+    },
     courses: [
       {
         id: 1,
@@ -68,31 +78,44 @@ var app = new Vue({
         targetList = this.studyingList;
       }
       targetList.push(course);
+      this.showToast(`${course.course.split(" - ")[0]} adicionado na sua lista de cursos!`)
     },
     selectTab(courseIndex, tab) {
       this.courses[courseIndex].selectedTab = tab;
     },
     sendRewiew(courseIndex) {
-      const course = this.courses[courseIndex];
-      /* Tarefa:
-      - Verique se tem uma nota, caso contrário retorne com o erro,
-        utilize uma forma diferente deste alert.
-      - Crie um `object` de revisão: {}
-      - Adicione este object na lista revisões: `course.reviews` (push e [])
-      - Adicione também os campos nome (name) e uma descrição (review)
-      - limpe os campos
+      /* 
+      Como utiliar recursos do HTML para não precisar do código de validação abaixo?
+      Existe alguma vantagem em fazer assim?
       **/
+      const course = this.courses[courseIndex];
+      course.errors = [];
+      if (!course.name || !course.name.trim()) {
+        course.errors.push("Campo nome precisa ser preenchido!");
+      }
       if (!course.rating) {
-        alert("Selecione um nota antes de enviar!");
+        course.errors.push("Selecione uma nota:");
+      }
+
+      if (course.errors.length > 0) {
         return;
       }
+
       let newReview = {
         date: new Date().toISOString(),
+        name: course.name,
+        review: course.review,
         rating: course.rating,
       };
       course.reviews.push(newReview);
       course.rating = undefined;
-      course.showReview = false;
+      course.name = undefined;
+      course.review = undefined;
+      course.selectedTab = undefined;
+
+      this.showToast(
+        "Sua revisão foi enviada! Muito obrigado pela contribuição."
+      );
     },
     calcRating(courseIndex) {
       let reviews = this.courses[courseIndex].reviews;
@@ -104,6 +127,21 @@ var app = new Vue({
         total += reviews[index].rating;
       }
       return (total / reviews.length).toFixed(1);
+    },
+    showToast(message) {
+      /**
+       * Segue a fonte/inspiração deste toast:
+       * https://github.com/ihaichao/vue-toast-plugin
+       */
+      this.toast.visible = false;
+      this.toast.message = message;
+      this.toast.style.hide = false;
+      this.toast.visible = true;
+
+      clearTimeout(this.toast.timer);
+      this.toast.timer = setTimeout(() => {
+        this.toast.style.hide = true;
+      }, this.toast.duration);
     },
   },
   computed: {

@@ -3,6 +3,7 @@
 @import url("./spacing.css");
 @import url("./forms.css");
 @import url("./tables.css");
+@import url("./toast.css");
 
 body {
   background-color: #f2f2f2;

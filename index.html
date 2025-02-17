@@ -25,12 +25,26 @@
           <li class="course-item ma-3">
             <div class="course">
               <div class="course-image">
-                <img :src="image" alt="imageDescription" /> <!-- Aqui também poderíamos ser mais explícitos utilizando v-bind:src -->
+                <img :src="image" alt="" /> <!-- Aqui também poderíamos ser mais explícitos utilizando v-bind:src -->
               </div>
               <div class="course-info">
-                <h2 class="title mb-2">{{ course }}</h2>
+                <h2 class="title mb-2">
+                  {{ course }} <span class="badge" v-if="!ativo">Em breve</span>
+                </h2>
                 <p class="description"> {{ description }} </p>
-                <p>{{ duration }} horas</p>
+                <div class="course-actions pa-1">
+                  <span> {{ duration }} horas</span>
+                  <button class="btn btn-primary" v-if="ativo">Iniciar</button>
+                  <button class="btn" :disabled="!ativo" v-else>Iniciar</button>
+
+                  <!--
+                    to do:
+                    Veja como remover a classe btn-primary usando class binding
+                    ao invés de utilizar v-else duplicando o botão!
+                  -->
+
+
+                </div>
               </div>
             </div>
           </li>
@@ -39,18 +53,6 @@
     </div>
 
     <!-- Inicializa App VueJS -->
-    <script>
-      var app = new Vue({
-        el: "#app",
-        data: {
-          course: "D-Já Vue - Uma jornada pela Web",
-          description:
-            "Como construir aplicações web com agilidade e qualidade.",
-          duration: 42,
-          image: "./images/dejavu_matrix.jpg",
-          imageDescription: "Gato do Matrix",
-        },
-      });
-    </script>
+    <script src="./js/main.js"></script>
   </body>
 </html>

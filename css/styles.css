@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,900,300italic");
-@import url("./reset.css");
-@import url("./spacing.css");
+@import url("reset.css");
+@import url("spacing.css");
 
 body {
   background-color: #f2f2f2;
@@ -48,7 +48,7 @@ select {
   line-height: 260px;
 }
 
-.button {
+.btn {
   margin: 30px;
   background-color: #39495c;
   border-radius: 5px;

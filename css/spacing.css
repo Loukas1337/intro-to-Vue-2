@@ -18,6 +18,10 @@
   margin-bottom: 16px;
 }
 
+.ml-2 {
+  margin-left: 16px;
+}
+
 .pa-1 {
   padding: 8px;
 }

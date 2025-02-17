@@ -1,3 +1,4 @@
+
 var app = new Vue({
   el: "#app",
   data: {
@@ -16,6 +17,9 @@ var app = new Vue({
         style: {
           priceColor: "#ffc31c",
         },
+        showReview: false,
+        reviews: [],
+        rating: null,
       },
       {
         id: 2,
@@ -27,6 +31,8 @@ var app = new Vue({
         active: false,
         price: 900,
         message: "👈 Melhor curso do mercado",
+        showReview: false,
+        reviews: [],
       },
       {
         id: 3,
@@ -37,6 +43,8 @@ var app = new Vue({
         duration: 21,
         active: true,
         price: 0,
+        showReview: false,
+        reviews: [],
       },
     ],
     theme: {
@@ -54,6 +62,33 @@ var app = new Vue({
         targetList = this.studyingList;
       }
       targetList.push(course);
+    },
+    toggleReview(index) {
+      this.courses[index].showReview = !this.courses[index].showReview;
+    },
+    sendRewiew(courseIndex) {
+      if (!this.courses[courseIndex].rating) {
+        alert("Selecione um nota antes de enviar!");
+        return;
+      }
+      let newReview = {
+        date: new Date().toISOString(),
+        rating: this.courses[courseIndex].rating,
+      };
+      this.courses[courseIndex].reviews.push(newReview);
+      this.courses[courseIndex].rating = undefined;
+      this.courses[courseIndex].showReview = false;
+    },
+    calcRating(courseIndex) {
+      let reviews = this.courses[courseIndex].reviews;
+      let total = 0;
+      if (!reviews || reviews.length == 0) {
+        return 0;
+      }
+      for (let index in reviews) {
+        total += reviews[index].rating;
+      }
+      return (total / reviews.length).toFixed(1);
     },
   },
   computed: {

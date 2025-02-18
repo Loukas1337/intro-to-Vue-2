@@ -19,10 +19,9 @@
   <body>
     <!-- Container gerenciado pelo VueJS -->
     <div id="app">
+
       <!-- TOAST -->
-      <div v-if="toast.visible" :class="toast.style">
-        <h3>{{ toast.message }}</h3>
-      </div>
+      <toast ref="toast" :message="toastMessage"></toast>
 
       <section class="header">
         <h1 class="title center ma-3">VueJS - Top Cursos</h1>
@@ -33,6 +32,7 @@
           <span class="cart-counter study">{{ studyingList.length }}</span>
         </div>
       </section>
+
       <section class="banner mb-2">
         <header>
           <h2 class="title">Investir em conhecimento tem os melhores juros.</h2>
@@ -59,169 +59,15 @@
       <section class="course-list">
         <ul>
           <li
-            v-for="(course, index) in courses"
-            :key="course.id"
-            class="course-item ma-3"
+          v-for="(course, index) in courses"
+          :key="course.id"
+          class="course-item ma-3"
           >
-            <div class="course">
-              <div class="course-image">
-                <img :src="course.image" alt="" />
-              </div>
-              <div class="course-info">
-                <h2 class="title mb-2">
-                  {{ course.course }}
-                  <span class="badge light" v-if="!course.active"
-                    >Em breve</span
-                  >
-                </h2>
-                <p class="description mb-2">{{ course.description }}</p>
-
-                <!-- REVIEW -->
-                <p>
-                  <i class="fa-solid fa-face-grin-stars"></i>
-                  <span
-                    v-if="course.reviews && course.reviews.length > 0"
-                    class="rating bold ml-2"
-                    >{{ calcRating(index) }}</span
-                  >
-                  <span v-else class="rating ml-2">Sem revisão</span>
-                </p>
-
-                <ul>
-                  <li
-                    :class="{tabs: true, activeTab: courses[index].selectedTab === 'Notas' }"
-                    @click="selectTab(index, 'Notas')"
-                  >
-                    Notas
-                  </li>
-                  <li
-                    :class="{tabs: true, activeTab: courses[index].selectedTab === 'Dar uma nota' }"
-                    @click="selectTab(index, 'Dar uma nota')"
-                  >
-                    Dar uma nota
-                  </li>
-                </ul>
-
-                <div v-show="course.selectedTab == 'Notas'">
-                  <div class="my-2">
-                    <div v-if="course.reviews && course.reviews.length == 0">
-                      <h3>Este curso ainda não tem revisões...</h3>
-                      <button
-                        class="pa-1"
-                        @click="selectTab(index, 'Dar uma nota')"
-                      >
-                        Dar uma nota
-                      </button>
-                    </div>
-
-                    <table v-else data-table-theme="default zebra">
-                      <caption>
-                        O que estão falando do {{ course.course.split(" - ")[0]
-                        || 'curso' }}
-                      </caption>
-                      <thead>
-                        <tr>
-                          <th>Data</th>
-                          <th>Nome</th>
-                          <th>Revisão</th>
-                          <th>Nota</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="review in course.reviews">
-                          <td class="px-1">
-                            {{ new Date(review.date).toLocaleDateString('pt-br')
-                            }}
-                          </td>
-                          <td class="px-1">{{ review.name }}</td>
-                          <td class="px-1">{{ review.review }}</td>
-                          <td class="px-1">{{ review.rating.toFixed(1) }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div v-show="course.selectedTab == 'Dar uma nota'">
-                  <form class="form-review" @submit.prevent="sendRewiew(index)">
-                    <p class="form-group">
-                      <label for="name">Name:</label>
-                      <input
-                        class="form-control"
-                        id="name"
-                        v-model="course.name"
-                        placeholder="Digite seu nome"
-                      />
-                    </p>
-
-                    <p class="form-group">
-                      <label for="review">Review:</label>
-                      <textarea
-                        class="form-control"
-                        id="review"
-                        v-model="course.review"
-                        rows="10"
-                        placeholder="O que você gostou ou não gostou?"
-                      ></textarea>
-                    </p>
-                    <p class="form-group">
-                      <label for="rating">Nota:</label>
-                      <select
-                        class="form-control"
-                        id="rating"
-                        name="rating"
-                        v-model.number="course.rating"
-                      >
-                        <option></option>
-                        <option>5</option>
-                        <option>4</option>
-                        <option>3</option>
-                        <option>2</option>
-                        <option>1</option>
-                      </select>
-                    </p>
-                    <ul>
-                      <li class="text-error" v-for="error in course.errors">
-                        {{ error }}
-                      </li>
-                    </ul>
-                    <p class="form-group center">
-                      <input type="submit" value="Enviar" class="btn btn-sm" />
-                    </p>
-                  </form>
-                </div>
-
-                <!-- REVIEW - FIM -->
-
-                <div class="course-actions pa-1">
-                  <!-- Desafio: Como fazer o valor 'FREE' também pegar a cor customizada?-->
-
-                  <p v-if="course.price == 0" class="badge keep-left bold">
-                    FREE
-                  </p>
-                  <p
-                    v-else
-                    class="badge keep-left bold"
-                    :style="{ 'background-color': course.style && course.style.priceColor ? course.style.priceColor : theme.priceColorDefault }"
-                  >
-                    R$ {{ course.price }}
-                  </p>
-
-                  <span v-if="course.message" class="keep-left bold"
-                    >{{ course.message }}</span
-                  >
-
-                  <span>{{ course.duration }} horas</span>
-                  <button
-                    :class="{btn: true, 'btn-primary': course.active}"
-                    :disabled="!course.active"
-                    @click="addCourse(course)"
-                  >
-                    {{ course.price > 0 ? 'Comprar Curso' : 'Iniciar Curso'}}
-                  </button>
-                </div>
-              </div>
-            </div>
+            <course
+                :course="course"
+                @newreview="onShowReview"
+                @addcourse="onAddCourse"
+            ></course>
           </li>
         </ul>
       </section>

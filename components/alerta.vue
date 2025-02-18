@@ -2,7 +2,7 @@
   <div :class="badgeClasses">
     <h3><i :class="iconClasses"></i> {{ texto }}</h3>
   </div>
-</template>
+</template> 
 
 <script>
 module.exports = {
